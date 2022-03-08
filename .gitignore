@@ -28,3 +28,4 @@ blocklet.js
 .DS_Store
 .vscode
 /.env
+/.blocklet-server/
