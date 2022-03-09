@@ -71,7 +71,7 @@ const searchBlock = async (e: any) => {
     font-size: 14px;
     text-transform: none;
     font-style: normal;">
-            This block was mined on {{ date.formatDate(1608620982*1000, "MMMM D, YYYY") }} at {{ date.formatDate(1608620982*1000, "HH:mm A") }} GMT+1 by Poolin. It currently has 64,100 confirmations on the Bitcoin blockchain.
+            This block was mined on {{ date.formatDate(1608620982*1000, "MMMM D, YYYY") }} at {{ date.formatDate(1608620982*1000, "HH:mm A") }} GMT+1. It currently has 64,100 confirmations on the Bitcoin blockchain.
             <br>
             The miner(s) of this block earned a total reward of ** 6.25000000 BTC ($261,855.25) **. The reward consisted of a base reward of ** 6.25000000 BTC ($261,855.25) ** with an additional ** 0.16583560 BTC ($6,947.99) ** reward paid as fees of the 912 transactions which were included in the block. The Block rewards, also known as the Coinbase reward, were sent to this address.
             <br>
