@@ -2,7 +2,7 @@ import TransactionDTO from "../../adapter/primary/DTOs/TransactionDTO";
 
 export default class Block {
 
-
+ private readonly blockReward = 625000000;
 
 
   constructor() {
@@ -12,6 +12,7 @@ export default class Block {
   get tx(): TransactionDTO[] {
     return this._tx;
   }
+
   set tx(value: TransactionDTO[]) {
     this._tx = value;
   }
@@ -20,6 +21,7 @@ export default class Block {
   get n_tx(): number {
     return this._n_tx;
   }
+
   set n_tx(value: number) {
     this._n_tx = value;
   }
@@ -44,7 +46,7 @@ export default class Block {
     this._ver = value;
   }
 
-  private _fee: number;
+  private _fee: number = 0;
 
   get fee(): number {
     return this._fee;
@@ -55,17 +57,29 @@ export default class Block {
   }
 
   getBlockFeeInBTC() {
-    return Block.satoshiToBtc(this._fee) + " BTC";
+    return Block.satoshiToBtc(this._fee).toFixed(8) + " BTC";
   }
 
   /**
    * @param satoshi value in satoshi
    */
-  private static satoshiToBtc(satoshi: number) {
-    return (satoshi * 0.00000001).toFixed(8);
+  private static satoshiToBtc(satoshi: number): number {
+    return (satoshi * 0.00000001);
   }
 
   getTransactionLength() {
     return this._tx.length;
+  }
+
+  getTransactionVolume() {
+    let volume = 0;
+    this._tx.forEach((tx) => {
+      tx.out.forEach((o) => {
+        volume = volume + o.value;
+      });
+    });
+
+    volume = volume - (this.blockReward + this._fee);
+    return Block.satoshiToBtc(volume).toFixed(8);
   }
 }
