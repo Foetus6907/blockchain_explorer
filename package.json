@@ -10,7 +10,7 @@
     "bundle": "npm run clean && vite build --base /.blocklet/proxy/z8iZnDYcvztvMywpyvTjbLwiy57Bq25xcLAbd && blocklet bundle --zip --create-release",
     "deploy": "npm run bundle && blocklet deploy .blocklet/bundle",
     "upload": "npm run bundle && blocklet upload .blocklet/release/blocklet.json",
-    "test": "jest tests --config jest.setup.js"
+    "test": "jest tests --config jest.setup.js --silent"
   },
   "dependencies": {
     "@quasar/extras": "^1.13.0",

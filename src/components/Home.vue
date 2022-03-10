@@ -19,7 +19,7 @@ interface Block {
 }
 
 
-import { Ref, ref } from "vue";
+import { computed, Ref, ref } from "vue";
 import { date } from 'quasar'
 
 
@@ -37,6 +37,16 @@ const fetchBlock = async (value): Promise<Block> => {
   return await response.json();
 }
 
+const blockProps = computed(() => {
+  return block.value !== null ? Object.keys(block.value).map((props, i) => {
+    return {
+      propsName: props,
+      value: Object.values(block.value)[i]
+    }
+  }) : []
+})
+
+
 const searchBlock = async (e: any) => {
   if (e.keyCode === 13) {
     isLoading.value = true;
@@ -45,19 +55,26 @@ const searchBlock = async (e: any) => {
     console.log(block.value);
   }
 }
+
+
+
+
+
 </script>
 
 <template>
   <q-page padding>
+
     <q-card flat >
       <q-card-section>
         <div class="row justify-center q-mb-xl">
           <q-input :loading="isLoading" class="col-5" v-model="blockHash" label="Block hash" name="block_hash" placeholder="Block hash" @keydown="searchBlock" />
         </div>
+
       </q-card-section>
       <template v-if="block !== null">
         <q-card-section>
-          <h5 class="text-weight-bolder text-grey-9 flex items-center">
+          <h5 id="blockHeight" class="text-weight-bolder text-grey-9 flex items-center">
             Block {{block.height}}
             <q-icon class="q-ml-sm cursor-pointer" name="info" color="grey"  size="sm">
               <q-popup-proxy :offset="[0, 0]">
@@ -71,7 +88,7 @@ const searchBlock = async (e: any) => {
     font-size: 14px;
     text-transform: none;
     font-style: normal;">
-            This block was mined on {{ date.formatDate(1608620982*1000, "MMMM D, YYYY") }} at {{ date.formatDate(1608620982*1000, "HH:mm A") }} GMT+1. It currently has 64,100 confirmations on the Bitcoin blockchain.
+            This block was mined on {{ date?.formatDate(1608620982*1000, "MMMM D, YYYY") }} at {{ date?.formatDate(1608620982*1000, "HH:mm A") }} GMT+1. It currently has 64,100 confirmations on the Bitcoin blockchain.
             <br>
             The miner(s) of this block earned a total reward of ** 6.25000000 BTC ($261,855.25) **. The reward consisted of a base reward of ** 6.25000000 BTC ($261,855.25) ** with an additional ** 0.16583560 BTC ($6,947.99) ** reward paid as fees of the 912 transactions which were included in the block. The Block rewards, also known as the Coinbase reward, were sent to this address.
             <br>
@@ -81,11 +98,11 @@ const searchBlock = async (e: any) => {
         <q-card-section >
           <q-list separator>
             <q-item
-              v-for="(arg, key) in Object.keys(block)"
+              v-for="(blockProp, key) in blockProps"
               v-ripple
               :key="key">
-              <q-item-section>{{ arg }}</q-item-section>
-              <q-item-section>{{Object.values(block)[key] }}</q-item-section>
+              <q-item-section>{{ blockProp.propsName }}</q-item-section>
+              <q-item-section>{{blockProp.value }}</q-item-section>
             </q-item>
           </q-list>
         </q-card-section>
