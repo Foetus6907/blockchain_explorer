@@ -7,9 +7,11 @@ export  default class BlockToBlockDTOmapper {
     block.hash = blockDTO.hash;
     block.version = blockDTO.ver;
     block.fee = blockDTO.fee;
-    block.numberOfTransactions = blockDTO.n_tx
+    block.numberOfTransactions = blockDTO.n_tx;
     block.tx = blockDTO.tx;
-    block.time = blockDTO.time
-    return block
+    block.time = blockDTO.time;
+    block.height = blockDTO.height;
+    block.bits = blockDTO.bits
+    return block;
   }
 }

@@ -24,6 +24,8 @@ describe('UseCase', () => {
     expect(block.getBlockFeeInBTC()).toEqual("0.16583560 BTC");
     expect(block.getBlockRewardInBTC()).toEqual("6.25000000 BTC");
     expect(block.getDate()).toEqual(expectedBlock.time * 1000);
+    expect(block.height).toEqual(expectedBlock.height);
+    expect(block.getDifficulty()).toEqual(12206601276334.9);
 
   })
 })
