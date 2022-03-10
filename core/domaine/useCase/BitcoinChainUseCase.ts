@@ -9,16 +9,6 @@ export default class BitcoinChainUseCase {
 
 
   getBlockFromHash(blockHash: string): Block {
-
-    const blockDto = this.blockRepository.getBlockFromHash(blockHash);
-    const block = new Block();
-
-    block.hash = blockDto.hash;
-    block.ver = blockDto.ver;
-    block.fee = blockDto.fee;
-    block.n_tx = blockDto.n_tx
-    block.tx = blockDto.tx;
-
-    return block
+    return this.blockRepository.getBlockFromHash(blockHash)
   }
 }

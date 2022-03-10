@@ -16,13 +16,14 @@ describe('UseCase', () => {
     const blockHash = "00000000000000000007878ec04bb2b2e12317804810f4c26033585b3f81ffaa";
     const block: Block = bitcoinChainUseCase.getBlockFromHash(blockHash);
     expect(block.hash).toEqual(blockHash);
-    expect(block.ver).toEqual(expectedBlock.ver);
-    expect(block.n_tx).toEqual(expectedBlock.n_tx);
+    expect(block.version).toEqual(expectedBlock.ver);
+    expect(block.numberOfTransactions).toEqual(expectedBlock.n_tx);
     //expect(block.time).toEqual(expectedBlock.time)
     expect(block.getTransactionLength()).toEqual(expectedBlock.tx.length);
-    expect(block.getTransactionVolume()).toEqual("306.51676953");
+    expect(block.getTransactionVolumeInBTC()).toEqual("306.51676953 BTC");
+    expect(block.getBlockFeeInBTC()).toEqual("0.16583560 BTC");
+    expect(block.getBlockRewardInBTC()).toEqual("6.25000000 BTC");
+    expect(block.getDate()).toEqual(expectedBlock.time * 1000);
 
-    const feeInBTC = block.getBlockFeeInBTC();
-    expect(feeInBTC).toEqual("0.16583560 BTC");
   })
 })

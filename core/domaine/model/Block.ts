@@ -1,9 +1,17 @@
 import TransactionDTO from "../../adapter/primary/DTOs/TransactionDTO";
 
 export default class Block {
+  get time(): number {
+    return this._time;
+  }
+
+  set time(value: number) {
+    this._time = value;
+  }
 
  private readonly blockReward = 625000000;
-
+  private transactionVolume: number;
+  private _time: number;
 
   constructor() {
   }
@@ -15,15 +23,17 @@ export default class Block {
 
   set tx(value: TransactionDTO[]) {
     this._tx = value;
+    this.transactionVolume = this.getTransactionVolume()
+
   }
 
-  private _n_tx: number;
-  get n_tx(): number {
-    return this._n_tx;
+  private _numberOfTransactions: number;
+  get numberOfTransactions(): number {
+    return this._numberOfTransactions;
   }
 
-  set n_tx(value: number) {
-    this._n_tx = value;
+  set numberOfTransactions(value: number) {
+    this._numberOfTransactions = value;
   }
 
   private _hash: string;
@@ -36,14 +46,14 @@ export default class Block {
     this._hash = value;
   }
 
-  private _ver: number;
+  private _version: number;
 
-  get ver(): number {
-    return this._ver;
+  get version(): number {
+    return this._version;
   }
 
-  set ver(value: number) {
-    this._ver = value;
+  set version(value: number) {
+    this._version = value;
   }
 
   private _fee: number = 0;
@@ -80,6 +90,18 @@ export default class Block {
     });
 
     volume = volume - (this.blockReward + this._fee);
-    return Block.satoshiToBtc(volume).toFixed(8);
+    return volume;
+  }
+
+  getBlockRewardInBTC() {
+    return Block.satoshiToBtc(this.blockReward).toFixed(8) + " BTC"
+  }
+
+  getTransactionVolumeInBTC() {
+    return Block.satoshiToBtc(this.transactionVolume).toFixed(8) + " BTC";
+  }
+
+  getDate() {
+    return this._time*1000;
   }
 }
