@@ -125,9 +125,12 @@ export default class Block {
     return (satoshi * 0.00000001);
   }
 
-  private static convertBitsToDifficulty(bits: number) {
+  static convertBitsToDifficulty(bits: number) {
+    // TODO find same algorithm as used by blockchain.com to calculate difficulty. Actually using
     let h = parseInt(String(bits), 10).toString(16);
     h = h.padStart(6, "0");
-    return parseInt("0x00000000FFFF0000000000000000000000000000000000000000000000000000", 16) / parseInt(`0x000000000${h}00000000000000000000000000000000000000`, 16);
+    // console.log(h);
+    // console.log(parseInt(`0x${h}`, 16))
+    return 0x00000000FFFF0000000000000000000000000000000000000000000000000000 / parseInt(`0x000000000${h}000000000000000000000000000000000000000000000000`, 16);
   }
 }
