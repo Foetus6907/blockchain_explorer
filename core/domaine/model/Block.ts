@@ -1,6 +1,32 @@
 import TransactionDTO from "../../adapter/primary/DTOs/TransactionDTO";
 
+function decimalToHexa(bits: number) {
+  return parseInt(String(bits), 10).toString(16);
+}
+
 export default class Block {
+  set nonce(value: number) {
+    this._nonce = value;
+  }
+  private _nonce: number;
+  set size(value: number) {
+    this._size = value;
+  }
+  private _size: number;
+
+
+  set weight(value: number) {
+    this._weight = value;
+  }
+  private _weight: number;
+  get merkelRoot(): string {
+    return this._merkelRoot;
+  }
+
+  set merkelRoot(value: string) {
+    this._merkelRoot = value;
+  }
+  private _merkelRoot: string;
   get bits(): number {
     return this._bits;
   }
@@ -16,9 +42,6 @@ export default class Block {
     this._height = value;
   }
   private _height: number;
-  get time(): number {
-    return this._time;
-  }
 
   set time(value: number) {
     this._time = value;
@@ -32,9 +55,6 @@ export default class Block {
   }
 
   private _tx: TransactionDTO[];
-  get tx(): TransactionDTO[] {
-    return this._tx;
-  }
 
   set tx(value: TransactionDTO[]) {
     this._tx = value;
@@ -62,8 +82,11 @@ export default class Block {
 
   private _version: number;
 
-  get version(): number {
-    return this._version;
+  getVersion(): string {
+
+    let version = decimalToHexa(this._version);
+    version = `0x${version}`
+    return version;
   }
 
   set version(value: number) {
@@ -72,9 +95,6 @@ export default class Block {
 
   private _fee: number = 0;
 
-  get fee(): number {
-    return this._fee;
-  }
 
   set fee(value: number) {
     this._fee = value;
@@ -121,16 +141,43 @@ export default class Block {
   /**
    * @param satoshi value in satoshi
    */
-  private static satoshiToBtc(satoshi: number): number {
+  static satoshiToBtc(satoshi: number): number {
     return (satoshi * 0.00000001);
   }
 
   static convertBitsToDifficulty(bits: number) {
     // TODO find same algorithm as used by blockchain.com to calculate difficulty. Actually using
-    let h = parseInt(String(bits), 10).toString(16);
+    let h = decimalToHexa(bits);
     h = h.padStart(6, "0");
     // console.log(h);
     // console.log(parseInt(`0x${h}`, 16))
     return 0x00000000FFFF0000000000000000000000000000000000000000000000000000 / parseInt(`0x000000000${h}000000000000000000000000000000000000000000000000`, 16);
+  }
+
+
+
+  getWeightWU() {
+    return `${Block.convertNumberUs(this._weight)} WU`;
+  }
+
+  /**
+   * @param num
+   */
+  public static convertNumberUs(num: number) {
+    const internationalNumberFormat = new Intl.NumberFormat("en-US");
+
+    return internationalNumberFormat.format(num);
+  }
+
+  getBits(): string {
+    return Block.convertNumberUs(this._bits);
+  }
+
+  getSize() {
+    return `${Block.convertNumberUs(this._size)} bytes`;
+  }
+
+  getNonce() {
+    return Block.convertNumberUs(this._nonce);
   }
 }

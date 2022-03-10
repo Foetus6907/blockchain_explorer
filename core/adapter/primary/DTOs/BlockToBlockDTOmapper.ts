@@ -11,7 +11,11 @@ export  default class BlockToBlockDTOmapper {
     block.tx = blockDTO.tx;
     block.time = blockDTO.time;
     block.height = blockDTO.height;
-    block.bits = blockDTO.bits
+    block.bits = blockDTO.bits;
+    block.merkelRoot = blockDTO.mrkl_root;
+    block.weight = blockDTO.weight;
+    block.size = blockDTO.size;
+    block.nonce = blockDTO.nonce;
     return block;
   }
 }
