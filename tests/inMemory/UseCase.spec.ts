@@ -51,11 +51,11 @@ describe('App', () => {
         transaction = block.getTransactions()[1];
         const formatedInput = transaction.getFormattedInputs()[0]
         expect(formatedInput.prev_out.addr).toEqual(expectedBlock.tx[1].inputs[0].prev_out.addr); // bc1qq5l34rvg7lzynr2cv8m3jf0cne8au0g6kn7s4x
-        console.log(formatedInput);
         expect(formatedInput.prev_out.value.toFixed(8)).toEqual(expectedBlock.tx[1].inputs[0].prev_out.value.toFixed(8)); // 0.00851770
         // TODO weight in bytes + trx fee
         expect(transaction.size).toEqual(expectedBlock.tx[1].size);
         expect(transaction.fee).toEqual(expectedBlock.tx[1].fee);
+        expect(transaction.getTotalValueFromOut()).toEqual(0.03968)
       }
 
     }

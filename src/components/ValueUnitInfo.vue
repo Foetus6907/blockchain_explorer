@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed } from "vue";
+import { computed, defineProps } from "vue";
 import Block from "../../core/domaine/model/Block";
 const props = defineProps({
   unit: String,

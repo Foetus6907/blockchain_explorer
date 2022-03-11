@@ -57,4 +57,11 @@ export default class Transaction {
     this._hash = value;
   }
   private _hash: string;
+  getTotalValueFromOut() {
+    let acc = 0
+    return this.getFormatedOutput().reduce((acc, out) => {
+      acc = acc + out.value;
+      return acc
+    }, acc)
+  }
 }
