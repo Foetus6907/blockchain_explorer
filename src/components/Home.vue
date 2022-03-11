@@ -31,10 +31,15 @@ const searchBlock = async (e: any) => {
 <template>
   <q-page padding>
     <q-card flat>
-      <q-card-section>
-        <div class="row justify-center q-mb-xl">
-          <q-input :loading="isLoading" class="col-5" v-model="blockHash" label="Block hash" name="block_hash"
-                   placeholder="Block hash" @keydown="searchBlock" />
+      <q-card-section class="row justify-center q-mb-xl">
+        <div class="col-xs-12 col-sm-12 col-md-8">
+          <q-input
+            :loading="isLoading"
+            v-model="blockHash"
+            label="Block hash"
+            name="block_hash"
+            placeholder="Block hash"
+            @keydown="searchBlock" />
         </div>
 
       </q-card-section>
