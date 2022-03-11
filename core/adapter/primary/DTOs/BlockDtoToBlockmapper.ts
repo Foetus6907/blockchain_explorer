@@ -14,6 +14,8 @@ export  default class BlockDtoToBlockmapper {
       transaction.hash = tx.hash
       transaction.out = tx.out
       transaction.inputs = tx.inputs
+      transaction.size = tx.size
+      transaction.fee = tx.fee
       return transaction;
     });
     block.time = blockDTO.time;

@@ -2,6 +2,22 @@ import { TrInput, TrOutput } from "../../adapter/primary/DTOs/TransactionDTO";
 import Block from "./Block";
 
 export default class Transaction {
+  get fee(): number {
+    return this._fee;
+  }
+
+  set fee(value: number) {
+    this._fee = value;
+  }
+  private _fee: number;
+  get size(): number {
+    return this._size;
+  }
+
+  set size(value: number) {
+    this._size = value;
+  }
+  private _size: number;
   get inputs(): TrInput[] {
     return this._inputs;
   }
