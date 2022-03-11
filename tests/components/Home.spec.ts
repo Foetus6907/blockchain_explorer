@@ -1,15 +1,7 @@
 import { mount } from "@vue/test-utils";
 import Home from "./../../src/components/Home.vue"
 
-
-
-// The component to test
-// const MessageComponent = {
-//   template: '<q-card><p>{{ msg }}</p></q-card>',
-//   props: ['msg']
-// }
-
-describe('HelloWorld', () => {
+describe('Home', () => {
   it('should display header text', async () => {
     const wrapper = mount(Home, {
       setup() {

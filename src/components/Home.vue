@@ -1,41 +1,19 @@
 <script lang="ts" setup>
-interface Block {
-  hash: string,
-  ver: number,
-  prev_block: string,
-  mrkl_root: string,
-  time: number,
-  bits: number,
-  next_block: string[],
-  fee: number,
-  nonce: number,
-  n_tx: number,
-  size: number,
-  block_index: number,
-  main_chain: true,
-  height: number,
-  weight: number,
-  tx: []
-}
-
-
-import { computed, Ref, ref } from "vue";
-import { date } from 'quasar'
-
+import { computed, inject, Ref, ref } from "vue";
+import { date } from "quasar";
+import Block from "../../core/domaine/model/Block";
+import { BitcoinChainUseCaseKey } from "../InjectionKey";
 
 defineProps({
   msg: String,
 });
 
+const blockUseCase = inject(BitcoinChainUseCaseKey);
+
 const isLoading = ref(false);
 
 const blockHash: Ref<string> = ref("00000000000000000007878ec04bb2b2e12317804810f4c26033585b3f81ffaa");
 const block: Ref<Block | null> = ref(null)
-
-const fetchBlock = async (value): Promise<Block> => {
-  const response = await fetch(`https://blockchain.info/rawblock/${value}`);
-  return await response.json();
-}
 
 const blockProps = computed(() => {
   return block.value !== null ? Object.keys(block.value).map((props, i) => {
@@ -46,25 +24,19 @@ const blockProps = computed(() => {
   }) : []
 })
 
-
 const searchBlock = async (e: any) => {
   if (e.keyCode === 13) {
     isLoading.value = true;
-    block.value = await fetchBlock(blockHash.value);
+    if (blockUseCase) {
+      block.value = await blockUseCase.getBlockFromHash(blockHash.value);
+    }
     isLoading.value = false;
-    console.log(block.value);
   }
 }
-
-
-
-
-
 </script>
 
 <template>
   <q-page padding>
-
     <q-card flat >
       <q-card-section>
         <div class="row justify-center q-mb-xl">
@@ -84,10 +56,13 @@ const searchBlock = async (e: any) => {
               </q-popup-proxy>
             </q-icon>
           </h5>
-          <p class="text-grey-9" style="font-weight: 500;
-    font-size: 14px;
-    text-transform: none;
-    font-style: normal;">
+          <p
+            class="text-grey-9"
+            style="font-weight: 500;
+            font-size: 14px;
+            text-transform: none;
+            font-style: normal;"
+          >
             This block was mined on {{ date?.formatDate(1608620982*1000, "MMMM D, YYYY") }} at {{ date?.formatDate(1608620982*1000, "HH:mm A") }} GMT+1. It currently has **64,100** confirmations on the Bitcoin blockchain.
             <br>
             The miner(s) of this block earned a total reward of ** 6.25000000 BTC ($261,855.25) **. The reward consisted of a base reward of ** 6.25000000 BTC ($261,855.25) ** with an additional ** 0.16583560 BTC ($6,947.99) ** reward paid as fees of the 912 transactions which were included in the block. The Block rewards, also known as the Coinbase reward, were sent to this address.

@@ -35,12 +35,26 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { provide, ref } from 'vue'
 
 import Home from "./components/Home.vue";
+import RealFetchApi from "../core/infrastructure/RealFetchApi";
+import BitcoinChainUseCase from "../core/domaine/useCase/BitcoinChainUseCase";
+import BlockRepository from "../core/domaine/port/BlockRepository";
+import FetchApi from "../core/infrastructure/FetchApi";
+import BlockchainApiBlockRepository from "../core/adapter/primary/BlockchainApiBlockRepository";
+import { BitcoinChainUseCaseKey } from "./InjectionKey";
 
 const rightDrawerOpen = ref(false);
 const toggleRightDrawer = () => {
   rightDrawerOpen.value = !rightDrawerOpen.value
 }
+
+
+const fetchApi: FetchApi = new RealFetchApi();
+const blockRepository: BlockRepository = new BlockchainApiBlockRepository(fetchApi);
+const blockUseCase = new BitcoinChainUseCase(blockRepository);
+
+provide(BitcoinChainUseCaseKey, blockUseCase);
+
 </script>
