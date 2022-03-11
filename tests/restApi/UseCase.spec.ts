@@ -2,13 +2,18 @@ import BitcoinChainUseCase from "../../core/domaine/useCase/BitcoinChainUseCase"
 import BlockRepository from "../../core/domaine/port/BlockRepository";
 import InMemoryBlockRepository from "../../core/adapter/primary/InMemoryBlockRepository";
 import Block from "../../core/domaine/model/Block";
-import { expectedBlock } from "./ExpectedBlock";
 import Transaction from "../../core/domaine/model/Transaction";
+import BlockchainApiBlockRepository from "../../core/adapter/primary/BlockchainApiBlockRepository";
+import FetchApi from "../../core/infrastructure/FetchApi";
+import FakeFetchApi from "./FakeFetchApi";
+import { expectedBlock } from "../inMemory/ExpectedBlock";
+import 'isomorphic-fetch'
 
 describe('App', () => {
   it('should fetch a block from hash block', async () => {
 
-    const blockRepository: BlockRepository = new InMemoryBlockRepository(expectedBlock);
+    let fakeFetchApi: FetchApi = new FakeFetchApi(expectedBlock);
+    const blockRepository: BlockRepository = new BlockchainApiBlockRepository(fakeFetchApi);
     const bitcoinChainUseCase = new BitcoinChainUseCase(blockRepository);
 
     // Assert the rendered text of the component

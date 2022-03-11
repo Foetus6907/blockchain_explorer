@@ -11,7 +11,7 @@ export default class InMemoryBlockRepository implements BlockRepository {
     this._expectedBlock = expectedBlock;
   }
 
-  getBlockFromHash(blockHash: string): Block {
-    return BlockDtoToBlockmapper.get(this._expectedBlock);
+  getBlockFromHash(blockHash: string): Promise<Block> {
+    return Promise.resolve(BlockDtoToBlockmapper.get(this._expectedBlock));
   }
 }

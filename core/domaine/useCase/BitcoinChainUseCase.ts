@@ -8,7 +8,7 @@ export default class BitcoinChainUseCase {
   }
 
 
-  getBlockFromHash(blockHash: string): Block {
-    return this.blockRepository.getBlockFromHash(blockHash)
+  async getBlockFromHash(blockHash: string): Promise<Block> {
+    return await this.blockRepository.getBlockFromHash(blockHash)
   }
 }
