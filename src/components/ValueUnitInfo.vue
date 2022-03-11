@@ -9,7 +9,7 @@ const props = defineProps({
 });
 
 const val = computed(() => {
-  let val = "";
+  let val = String(props.value);
   if (props.formatNumberUs) {
    val = Block.convertNumberUs(props.value)
   }

@@ -1,28 +1,34 @@
 <script lang="ts" setup>
-import { computed, inject, Ref, ref } from "vue";
+import { computed, ComputedRef, inject, Ref, ref } from "vue";
 import { date } from "quasar";
 import Block from "../../core/domaine/model/Block";
 import { BitcoinChainUseCaseKey } from "../InjectionKey";
-
-defineProps({
-  msg: String,
-});
+import BlockHeaderListItem from "./BlockHeaderListItem.vue";
 
 const blockUseCase = inject(BitcoinChainUseCaseKey);
 
 const isLoading = ref(false);
 
 const blockHash: Ref<string> = ref("00000000000000000007878ec04bb2b2e12317804810f4c26033585b3f81ffaa");
-const block: Ref<Block | null> = ref(null)
+const block: Ref<Block | null> = ref(null);
 
-const blockProps = computed(() => {
-  return block.value !== null ? Object.keys(block.value).map((props, i) => {
-    return {
-      propsName: props,
-      value: Object.values(block.value)[i]
-    }
-  }) : []
-})
+const blockReward:ComputedRef<string> = computed(() => {
+  return block.value?.getBlockRewardInBTCString() ?? "";
+});
+const feeReward: ComputedRef<string> = computed(() => block.value?.getBlockFeeInBTCString() ?? "");
+const totalBlockReward: ComputedRef<string> = computed(() => `${Block.satoshiToBtc(block.value?.fee + block.value?.blockReward)} BTC`);
+const totalBlockTransactionVolume: ComputedRef<string> = computed(() => block.value?.getTransactionVolumeInBTCString()?? "");
+const nbrTransactions: ComputedRef<number> = computed(() => block.value?.numberOfTransactions ?? 0 );
+const averageTransaction: ComputedRef<string> = computed(() => `${(block.value?.getTransactionVolume() / block.value?.numberOfTransactions).toFixed(8)} BTC`);
+
+// nst blockProps = computed(() => {
+// return block.value !== null ? Object.keys(block.value).map((props, i) => {
+//   return {
+//     propsName: props,
+//     value: Object.values(block.value)[i]
+//   }
+// }) : []
+//
 
 const searchBlock = async (e: any) => {
   if (e.keyCode === 13) {
@@ -63,22 +69,48 @@ const searchBlock = async (e: any) => {
             text-transform: none;
             font-style: normal;"
           >
-            This block was mined on {{ date?.formatDate(1608620982*1000, "MMMM D, YYYY") }} at {{ date?.formatDate(1608620982*1000, "HH:mm A") }} GMT+1. It currently has **64,100** confirmations on the Bitcoin blockchain.
+            This block was mined on {{ date?.formatDate(1608620982*1000, "MMMM D, YYYY") }} at {{ date?.formatDate(1608620982*1000, "HH:mm A") }} GMT+1.
             <br>
-            The miner(s) of this block earned a total reward of ** 6.25000000 BTC ($261,855.25) **. The reward consisted of a base reward of ** 6.25000000 BTC ($261,855.25) ** with an additional ** 0.16583560 BTC ($6,947.99) ** reward paid as fees of the 912 transactions which were included in the block. The Block rewards, also known as the Coinbase reward, were sent to this address.
+            The miner(s) of this block earned a total reward of {{totalBlockReward}}. The reward consisted of
+            a base reward of {{blockReward}}  with an additional  {{feeReward}}  reward paid as fees of the {{nbrTransactions}}
+            transactions which were included in the block. The Block rewards, also known as the Coinbase reward, were sent to this address.
             <br>
-            A total of ** 306.51676953 BTC ($12,842,084.05) ** were sent in the block with the average transaction being ** 0.33609295 BTC ($14,081.23) **.  Learn more about how blocks work.
+            A total of {{ totalBlockTransactionVolume }} were sent in the block
+            with the average transaction being {{ averageTransaction }}. Learn more about how blocks work.
           </p>
         </q-card-section>
         <q-card-section >
           <q-list separator>
-            <q-item
+<!--            <q-item
               v-for="(blockProp, key) in blockProps"
               v-ripple
               :key="key">
               <q-item-section>{{ blockProp.propsName }}</q-item-section>
-              <q-item-section>{{blockProp.value }}</q-item-section>
-            </q-item>
+              <q-item-section><ValueUnitInfo :value="blockProp.value" /></q-item-section>
+            </q-item>-->
+            <BlockHeaderListItem label="Hash" :value="block.hash" />
+            <BlockHeaderListItem label="Height" :value="block.height" />
+
+            <BlockHeaderListItem label="Timestamp" :value="date?.formatDate(block.getDate(), 'YYYY-MM-DD HH:mm:ss')" />
+
+            <BlockHeaderListItem label="Block Reward" :value="blockReward" />
+            <BlockHeaderListItem label="Fee Reward" :value="feeReward" />
+            <BlockHeaderListItem label="Number of Transactions" :value="nbrTransactions" />
+            <BlockHeaderListItem label="Transaction Volume" :value="totalBlockTransactionVolume" />
+            <BlockHeaderListItem label="Average Transaction" :value="averageTransaction" />
+
+            <BlockHeaderListItem label="Difficulty" :value="block.getDifficulty()" />
+
+            <BlockHeaderListItem label="Merkle root" :value="block.merkelRoot" />
+            <BlockHeaderListItem label="Version" :value="block.getVersion()" />
+
+            <BlockHeaderListItem label="Bits" :value="block.bits" :formatNumberUs="true"/>
+            <BlockHeaderListItem label="Weight" :value="block.getWeightWU()"/>
+            <BlockHeaderListItem label="Size" :value="block.getSize()"/>
+            <BlockHeaderListItem label="Nonce" :value="block.getNonce()" :formatNumberUs="true"/>
+
+
+
           </q-list>
         </q-card-section>
         <q-card-section v-if="block !== null">
@@ -88,7 +120,6 @@ const searchBlock = async (e: any) => {
         </q-card-section>
       </template>
     </q-card>
-
 
   </q-page>
 </template>

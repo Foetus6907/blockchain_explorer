@@ -19,9 +19,10 @@ describe('App', () => {
     expect(block.numberOfTransactions).toEqual(expectedBlock.n_tx);
     //expect(block.ts.time).toEqual(expectedBlock.time);
     expect(block.getTransactionLength()).toEqual(expectedBlock.tx.length);
-    expect(block.getTransactionVolumeInBTC()).toEqual("306.51676953 BTC");
-    expect(block.getBlockFeeInBTC()).toEqual(`${Block.satoshiToBtc(expectedBlock.fee)}0 BTC`);
-    expect(block.getBlockRewardInBTC()).toEqual("6.25000000 BTC");
+    expect(block.getTransactionVolumeInBTCString()).toEqual("306.51676953 BTC");
+    expect(block.getTransactionVolume()).toEqual(306.51676953000003);
+    expect(block.getBlockFeeInBTCString()).toEqual(`${Block.satoshiToBtc(expectedBlock.fee)}0 BTC`);
+    expect(block.getBlockRewardInBTCString()).toEqual("6.25000000 BTC");
     expect(block.getDate()).toEqual(expectedBlock.time * 1000);
     expect(block.height).toEqual(expectedBlock.height);
 

@@ -1,4 +1,3 @@
-import TransactionDTO from "../../adapter/primary/DTOs/TransactionDTO";
 import Transaction from "./Transaction";
 
 function decimalToHexa(bits: number) {
@@ -6,6 +5,12 @@ function decimalToHexa(bits: number) {
 }
 
 export default class Block {
+  get fee(): number {
+    return this._fee;
+  }
+  get blockReward(): number {
+    return this._blockReward;
+  }
   set nonce(value: number) {
     this._nonce = value;
   }
@@ -48,7 +53,7 @@ export default class Block {
     this._time = value;
   }
 
- private readonly blockReward = 625000000;
+ private readonly _blockReward = 625000000;
   private _transactionVolume: number;
   private _time: number;
 
@@ -101,11 +106,11 @@ export default class Block {
     this._fee = value;
   }
 
-  getBlockFeeInBTC() {
+  getBlockFeeInBTCString(): string {
     return Block.satoshiToBtc(this._fee).toFixed(8) + " BTC";
   }
 
-  getTransactionLength() {
+  getTransactionLength():number {
     return this._tx.length;
   }
 
@@ -118,22 +123,27 @@ export default class Block {
       });
     });
 
-    this._transactionVolume = volume - (this.blockReward + this._fee);
+    this._transactionVolume = volume - (this._blockReward + this._fee);
   }
 
-  getBlockRewardInBTC() {
-    return Block.satoshiToBtc(this.blockReward).toFixed(8) + " BTC"
+  getBlockRewardInBTCString(): string {
+    return Block.satoshiToBtc(this._blockReward).toFixed(8) + " BTC"
   }
 
-  getTransactionVolumeInBTC() {
+  getTransactionVolumeInBTCString(): string {
     return Block.satoshiToBtc(this._transactionVolume).toFixed(8) + " BTC";
   }
 
-  getDate() {
+  getTransactionVolume(): number {
+    return Block.satoshiToBtc(this._transactionVolume)
+  }
+
+
+  getDate():number {
     return this._time*1000;
   }
 
-  getDifficulty() {
+  getDifficulty(): number {
     return Block.convertBitsToDifficulty(this.bits);
   }
 
@@ -144,7 +154,7 @@ export default class Block {
     return (satoshi * 0.00000001);
   }
 
-  static convertBitsToDifficulty(bits: number) {
+  static convertBitsToDifficulty(bits: number): number {
     // TODO find same algorithm as used by blockchain.com to calculate difficulty. Actually using
     let h = decimalToHexa(bits);
     h = h.padStart(6, "0");
@@ -155,14 +165,14 @@ export default class Block {
 
 
 
-  getWeightWU() {
+  getWeightWU(): string {
     return `${Block.convertNumberUs(this._weight)} WU`;
   }
 
   /**
    * @param num
    */
-  public static convertNumberUs(num: number) {
+  public static convertNumberUs(num: number): string {
     const internationalNumberFormat = new Intl.NumberFormat("en-US");
 
     return internationalNumberFormat.format(num);
@@ -172,11 +182,11 @@ export default class Block {
     return Block.convertNumberUs(this._bits);
   }
 
-  getSize() {
+  getSize(): string {
     return `${Block.convertNumberUs(this._size)} bytes`;
   }
 
-  getNonce() {
+  getNonce(): string {
     return Block.convertNumberUs(this._nonce);
   }
 
