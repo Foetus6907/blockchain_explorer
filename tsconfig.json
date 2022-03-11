@@ -6,7 +6,7 @@
     "importHelpers": true,
     "isolatedModules": false,
     "noEmit": false,
-    "types": ["vite/client", "@types/jest"],
+    "types": ["vite/client", "@types/jest", "node"],
     "esModuleInterop": true,
     "allowJs": true
   }

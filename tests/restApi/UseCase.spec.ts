@@ -1,16 +1,15 @@
 import BitcoinChainUseCase from "../../core/domaine/useCase/BitcoinChainUseCase";
 import BlockRepository from "../../core/domaine/port/BlockRepository";
-import InMemoryBlockRepository from "../../core/adapter/primary/InMemoryBlockRepository";
 import Block from "../../core/domaine/model/Block";
 import Transaction from "../../core/domaine/model/Transaction";
 import BlockchainApiBlockRepository from "../../core/adapter/primary/BlockchainApiBlockRepository";
 import FetchApi from "../../core/infrastructure/FetchApi";
 import FakeFetchApi from "./FakeFetchApi";
 import { expectedBlock } from "../inMemory/ExpectedBlock";
-import 'isomorphic-fetch'
+import "isomorphic-fetch";
 
 describe('App', () => {
-  it('should fetch a block from hash block', async () => {
+  it('should fetch a block.ts from hash block.ts', async () => {
 
     let fakeFetchApi: FetchApi = new FakeFetchApi(expectedBlock);
     const blockRepository: BlockRepository = new BlockchainApiBlockRepository(fakeFetchApi);
@@ -22,7 +21,7 @@ describe('App', () => {
     expect(block.hash).toEqual(blockHash);
     expect(block.getVersion()).toEqual("0x20000000");
     expect(block.numberOfTransactions).toEqual(expectedBlock.n_tx);
-    //expect(block.time).toEqual(expectedBlock.time);
+    //expect(block.ts.time).toEqual(expectedBlock.time);
     expect(block.getTransactionLength()).toEqual(expectedBlock.tx.length);
     expect(block.getTransactionVolumeInBTC()).toEqual("306.51676953 BTC");
     expect(block.getBlockFeeInBTC()).toEqual(`${Block.satoshiToBtc(expectedBlock.fee)}0 BTC`);

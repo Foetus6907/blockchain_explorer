@@ -6,7 +6,7 @@ import { expectedBlock } from "./ExpectedBlock";
 import Transaction from "../../core/domaine/model/Transaction";
 
 describe('App', () => {
-  it('should fetch a block from hash block', async () => {
+  it('should fetch a block.ts from hash block.ts', async () => {
 
     const blockRepository: BlockRepository = new InMemoryBlockRepository(expectedBlock);
     const bitcoinChainUseCase = new BitcoinChainUseCase(blockRepository);
@@ -17,7 +17,7 @@ describe('App', () => {
     expect(block.hash).toEqual(blockHash);
     expect(block.getVersion()).toEqual("0x20000000");
     expect(block.numberOfTransactions).toEqual(expectedBlock.n_tx);
-    //expect(block.time).toEqual(expectedBlock.time);
+    //expect(block.ts.time).toEqual(expectedBlock.time);
     expect(block.getTransactionLength()).toEqual(expectedBlock.tx.length);
     expect(block.getTransactionVolumeInBTC()).toEqual("306.51676953 BTC");
     expect(block.getBlockFeeInBTC()).toEqual(`${Block.satoshiToBtc(expectedBlock.fee)}0 BTC`);
