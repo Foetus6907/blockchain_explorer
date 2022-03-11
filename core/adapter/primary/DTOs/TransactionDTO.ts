@@ -36,5 +36,5 @@ export interface TrOutput {
   n: number,
   tx_index: number;
   script: string;
-  addr?: string
+  addr?: string | undefined
 }

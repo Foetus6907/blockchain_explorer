@@ -3,6 +3,7 @@ import BlockRepository from "../../core/domaine/port/BlockRepository";
 import InMemoryBlockRepository from "../../core/adapter/primary/InMemoryBlockRepository";
 import Block from "../../core/domaine/model/Block";
 import { expectedBlock } from "./ExpectedBlock";
+import Transaction from "../../core/domaine/model/Transaction";
 
 describe('App', () => {
   it('should fetch a block from hash block', async () => {
@@ -26,10 +27,31 @@ describe('App', () => {
 
     expect(block.getDifficulty()).toEqual(Block.convertBitsToDifficulty(expectedBlock.bits));
     expect(block.merkelRoot).toEqual(expectedBlock.mrkl_root);
-    console.log(`${Block.convertNumberUs(expectedBlock.bits)}`)
     expect(block.getBits()).toEqual(Block.convertNumberUs(expectedBlock.bits));
     expect(block.getWeightWU()).toEqual(`${Block.convertNumberUs(expectedBlock.weight)} WU`);
-    expect(block.getSize()).toEqual(`${Block.convertNumberUs(expectedBlock.size)} bytes`)
-    expect(block.getNonce()).toEqual(Block.convertNumberUs(expectedBlock.nonce))
+    expect(block.getSize()).toEqual(`${Block.convertNumberUs(expectedBlock.size)} bytes`);
+    expect(block.getNonce()).toEqual(Block.convertNumberUs(expectedBlock.nonce));
+    if (expectedBlock.tx.length > 0 ) {
+      let transaction: Transaction = block.getTransactions()[0];
+      expect(transaction.hash).toEqual(expectedBlock.tx[0]?.hash);
+      expect(transaction.out.length).toEqual(expectedBlock?.tx[0]?.out?.length);
+      if (transaction.out.length > 0 ) {
+        expect(transaction.out[0].addr).toEqual(expectedBlock.tx[0].out[0].addr);
+        const outputValueInBtc: number = transaction.getFormatedOutput()[0]?.value;
+        expect(outputValueInBtc.toFixed(8)).toEqual(6.41583560.toFixed(8));
+      }
+
+      transaction = block.getTransactions()[1];
+      expect(transaction.inputs.length).toEqual(expectedBlock.tx[1].inputs.length);
+      if (transaction.inputs.length > 1) {
+        transaction = block.getTransactions()[1];
+        const formatedInput = transaction.getFormattedInputs()[0]
+        expect(formatedInput.prev_out.addr).toEqual(expectedBlock.tx[1].inputs[0].prev_out.addr); // bc1qq5l34rvg7lzynr2cv8m3jf0cne8au0g6kn7s4x
+        console.log(formatedInput);
+        expect(formatedInput.prev_out.value.toFixed(8)).toEqual(expectedBlock.tx[1].inputs[0].prev_out.value.toFixed(8)); // 0.00851770
+        // TODO weight in bytes + trx fee
+      }
+
+    }
   })
 })

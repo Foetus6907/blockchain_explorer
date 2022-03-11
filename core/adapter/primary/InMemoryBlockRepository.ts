@@ -1,7 +1,7 @@
 import BlockRepository from "../../domaine/port/BlockRepository";
 import BlockDTO from "./DTOs/BlockDTO";
 import Block from "../../domaine/model/Block";
-import BlockToBlockDTOmapper from "./DTOs/BlockToBlockDTOmapper";
+import BlockDtoToBlockmapper from "./DTOs/BlockDtoToBlockmapper";
 
 export default class InMemoryBlockRepository implements BlockRepository {
 
@@ -12,6 +12,6 @@ export default class InMemoryBlockRepository implements BlockRepository {
   }
 
   getBlockFromHash(blockHash: string): Block {
-    return BlockToBlockDTOmapper.get(this._expectedBlock);
+    return BlockDtoToBlockmapper.get(this._expectedBlock);
   }
 }
