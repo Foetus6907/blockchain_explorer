@@ -42,7 +42,10 @@ const searchBlock = async (e: any) => {
         <BlockHeader :block="block" />
         <q-card-section v-if="block !== null">
           <q-list separator>
-            <BlockTransactionListItems v-for="(transaction, key) in transactions" :key="key" :transaction="transaction" />
+            <q-item class="block">
+              <BlockTransactionListItems v-for="(transaction, key) in transactions" :key="key" :transaction="transaction" />
+            </q-item>
+            <q-separator />
           </q-list>
         </q-card-section>
       </template>
