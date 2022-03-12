@@ -19,17 +19,17 @@ export default interface TransactionDTO {
 
 export interface TrInput {
   sequence: number;
-  witness: string
-  script: string
+  witness: string;
+  script: string;
   index: number;
-  prev_out: TrOutput
+  prev_out: TrOutput;
 }
 
 export interface TrOutput {
   type: number,
   spent: boolean,
   value: number,
-  spending_outpoints:{
+  spending_outpoints: {
     tx_index: number;
     n: number;
   }[],

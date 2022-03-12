@@ -50,11 +50,9 @@ const toggleRightDrawer = () => {
   rightDrawerOpen.value = !rightDrawerOpen.value
 }
 
-
 const fetchApi: FetchApi = new RealFetchApi();
 const blockRepository: BlockRepository = new BlockchainApiBlockRepository(fetchApi);
 const blockUseCase = new BitcoinChainUseCase(blockRepository);
 
 provide(BitcoinChainUseCaseKey, blockUseCase);
-
 </script>

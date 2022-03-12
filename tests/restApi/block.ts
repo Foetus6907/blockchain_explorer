@@ -338,6 +338,6 @@ export const smallExpectedBlock = {
           "addr": "3KYyWfAVnWRgLvvvRrhatxdmE8xBHSevVb"
         }
       ]
-    },
+    }
   ]
-}
+};

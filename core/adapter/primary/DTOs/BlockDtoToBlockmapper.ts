@@ -2,7 +2,7 @@ import BlockDTO from "./BlockDTO";
 import Block from "../../../domaine/model/Block";
 import Transaction from "../../../domaine/model/Transaction";
 
-export  default class BlockDtoToBlockmapper {
+export default class BlockDtoToBlockmapper {
   static get(blockDTO: BlockDTO): Block {
     const block = new Block();
     block.hash = blockDTO.hash;
@@ -11,11 +11,11 @@ export  default class BlockDtoToBlockmapper {
     block.numberOfTransactions = blockDTO.n_tx;
     block.tx = blockDTO.tx.map((tx) => {
       const transaction = new Transaction();
-      transaction.hash = tx.hash
-      transaction.out = tx.out
-      transaction.inputs = tx.inputs
-      transaction.size = tx.size
-      transaction.fee = tx.fee
+      transaction.hash = tx.hash;
+      transaction.out = tx.out;
+      transaction.inputs = tx.inputs;
+      transaction.size = tx.size;
+      transaction.fee = tx.fee;
       return transaction;
     });
     block.time = blockDTO.time;

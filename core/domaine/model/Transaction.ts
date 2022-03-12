@@ -9,7 +9,9 @@ export default class Transaction {
   set fee(value: number) {
     this._fee = value;
   }
+
   private _fee: number;
+
   get size(): number {
     return this._size;
   }
@@ -17,7 +19,9 @@ export default class Transaction {
   set size(value: number) {
     this._size = value;
   }
+
   private _size: number;
+
   get inputs(): TrInput[] {
     return this._inputs;
   }
@@ -26,29 +30,32 @@ export default class Transaction {
     this._inputs = value;
   }
 
-  private _inputs: TrInput[]
+  private _inputs: TrInput[];
 
   getFormattedInputs(): TrInput[] {
     return this._inputs.map((i) => {
-      i.prev_out.value = Block.satoshiToBtc(i.prev_out.value)
+      i.prev_out.value = Block.satoshiToBtc(i.prev_out.value);
       return i;
     });
   }
 
   getFormatedOutput(): TrOutput[] {
     return this._out.map((o) => {
-      o.value = Block.satoshiToBtc(o.value)
-      return o
+      o.value = Block.satoshiToBtc(o.value);
+      return o;
     });
   }
+
   get out(): TrOutput[] {
-    return this._out
+    return this._out;
   }
 
   set out(value: TrOutput[]) {
     this._out = value;
   }
+
   private _out: TrOutput[];
+
   get hash(): string {
     return this._hash;
   }
@@ -56,12 +63,14 @@ export default class Transaction {
   set hash(value: string) {
     this._hash = value;
   }
+
   private _hash: string;
+
   getTotalValueFromOut() {
-    let acc = 0
+    let acc = 0;
     return this.getFormatedOutput().reduce((acc, out) => {
       acc = acc + out.value;
-      return acc
-    }, acc)
+      return acc;
+    }, acc);
   }
 }

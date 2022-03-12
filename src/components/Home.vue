@@ -15,7 +15,7 @@ const block: Ref<Block | null> = ref(null);
 
 const transactions: ComputedRef<Transaction[]> = computed(() => {
   return block.value.getTransactions();
-})
+});
 
 const searchBlock = async (e: any) => {
   if (e.keyCode === 13) {
@@ -48,7 +48,8 @@ const searchBlock = async (e: any) => {
         <q-card-section v-if="block !== null">
           <q-list separator>
             <q-item class="block">
-              <BlockTransactionListItems v-for="(transaction, key) in transactions" :key="key" :transaction="transaction" />
+              <BlockTransactionListItems v-for="(transaction, key) in transactions" :key="key"
+                                         :transaction="transaction" />
             </q-item>
             <q-separator />
           </q-list>

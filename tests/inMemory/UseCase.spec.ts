@@ -5,8 +5,8 @@ import Block from "../../core/domaine/model/Block";
 import { expectedBlock } from "./ExpectedBlock";
 import Transaction from "../../core/domaine/model/Transaction";
 
-describe('App', () => {
-  it('should fetch a block.ts from hash block.ts', async () => {
+describe("App", () => {
+  it("should fetch a block.ts from hash block.ts", async () => {
 
     const blockRepository: BlockRepository = new InMemoryBlockRepository(expectedBlock);
     const bitcoinChainUseCase = new BitcoinChainUseCase(blockRepository);
@@ -25,6 +25,8 @@ describe('App', () => {
     expect(block.getBlockRewardInBTCString()).toEqual("6.25000000 BTC");
     expect(block.getDate()).toEqual(expectedBlock.time * 1000);
     expect(block.height).toEqual(expectedBlock.height);
+    expect(block.fee).toEqual(expectedBlock.fee);
+    expect(block.blockReward).toEqual(625000000);
 
     expect(block.getDifficulty()).toEqual(Block.convertBitsToDifficulty(expectedBlock.bits));
     expect(block.merkelRoot).toEqual(expectedBlock.mrkl_root);
@@ -32,13 +34,13 @@ describe('App', () => {
     expect(block.getWeightWU()).toEqual(`${Block.convertNumberUs(expectedBlock.weight)} WU`);
     expect(block.getSize()).toEqual(`${Block.convertNumberUs(expectedBlock.size)} bytes`);
     expect(block.getNonce()).toEqual(Block.convertNumberUs(expectedBlock.nonce));
-    expect(expectedBlock.tx.length).toBeGreaterThan(0)
-    if (expectedBlock.tx.length > 0 ) {
+    expect(expectedBlock.tx.length).toBeGreaterThan(0);
+    if (expectedBlock.tx.length > 0) {
       let transaction: Transaction = block.getTransactions()[0];
       expect(transaction.hash).toEqual(expectedBlock.tx[0]?.hash);
       expect(transaction.out.length).toEqual(expectedBlock?.tx[0]?.out?.length);
-      expect(transaction.out.length).toBeGreaterThan(0)
-      if (transaction.out.length > 0 ) {
+      expect(transaction.out.length).toBeGreaterThan(0);
+      if (transaction.out.length > 0) {
         expect(transaction.out[0].addr).toEqual(expectedBlock.tx[0].out[0].addr);
         const outputValueInBtc: number = transaction.getFormatedOutput()[0]?.value;
         expect(outputValueInBtc.toFixed(8)).toEqual(6.41583560.toFixed(8));
@@ -49,15 +51,15 @@ describe('App', () => {
       expect(transaction.out.length).toBeGreaterThanOrEqual(1);
       if (transaction.inputs.length >= 1) {
         transaction = block.getTransactions()[1];
-        const formatedInput = transaction.getFormattedInputs()[0]
+        const formatedInput = transaction.getFormattedInputs()[0];
         expect(formatedInput.prev_out.addr).toEqual(expectedBlock.tx[1].inputs[0].prev_out.addr); // bc1qq5l34rvg7lzynr2cv8m3jf0cne8au0g6kn7s4x
         expect(formatedInput.prev_out.value.toFixed(8)).toEqual(expectedBlock.tx[1].inputs[0].prev_out.value.toFixed(8)); // 0.00851770
         // TODO weight in bytes + trx fee
         expect(transaction.size).toEqual(expectedBlock.tx[1].size);
         expect(transaction.fee).toEqual(expectedBlock.tx[1].fee);
-        expect(transaction.getTotalValueFromOut()).toEqual(0.03968)
+        expect(transaction.getTotalValueFromOut()).toEqual(0.03968);
       }
 
     }
-  })
-})
+  });
+});

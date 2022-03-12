@@ -74,24 +74,24 @@ const nonce = computed(() => props.block.getNonce() ?? "");
 
 const headerList = computed(() => {
   return [
-    {label: "Hash", value: hash.value},
+    { label: "Hash", value: hash.value },
 
-    {label: "Height", value: height.value},
-    {label: "Timestamp", value: timestamp.value},
-    {label: "Block Reward", value: blockReward.value},
-    {label: "Fee Reward", value: feeReward.value},
-    {label: "Number of Transactions", value: nbrTransactions.value},
-    {label: "Transaction Volume", value: totalBlockTransactionVolume.value},
-    {label: "Average Transaction", value: averageTransaction.value},
-    {label: "Difficulty", value: difficulty.value},
-    {label: "Merkle root", value: merkleroot.value},
-    {label: "Version", value: version.value},
-    {label: "Bits", value: bits.value, formatNumberUs:true},
-    {label: "Weight", value: weight.value},
-    {label: "Size", value: size.value},
-    {label: "Nonce", value:nonce.value, formatNumberUs:true}
+    { label: "Height", value: height.value },
+    { label: "Timestamp", value: timestamp.value },
+    { label: "Block Reward", value: blockReward.value },
+    { label: "Fee Reward", value: feeReward.value },
+    { label: "Number of Transactions", value: nbrTransactions.value },
+    { label: "Transaction Volume", value: totalBlockTransactionVolume.value },
+    { label: "Average Transaction", value: averageTransaction.value },
+    { label: "Difficulty", value: difficulty.value },
+    { label: "Merkle root", value: merkleroot.value },
+    { label: "Version", value: version.value },
+    { label: "Bits", value: bits.value, formatNumberUs: true },
+    { label: "Weight", value: weight.value },
+    { label: "Size", value: size.value },
+    { label: "Nonce", value: nonce.value, formatNumberUs: true }
   ];
-})
+});
 
 
 </script>

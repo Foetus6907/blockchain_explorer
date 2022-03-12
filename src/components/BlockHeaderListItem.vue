@@ -1,7 +1,7 @@
 <template>
-  <q-item v-ripple >
+  <q-item>
     <q-item-section class="text-grey-8 text-weight-medium">{{ label }}</q-item-section>
-    <q-item-section class="text-grey-9 text-weight-bolder" >
+    <q-item-section class="text-grey-9 text-weight-bolder">
       <template v-if="isValueNumber">
         <ValueUnitInfo :formatNumberUs="formatNumberUs" :value="value" />
       </template>
@@ -10,7 +10,7 @@
   </q-item>
 </template>
 
-<script setup lang="ts" >
+<script setup lang="ts">
 import ValueUnitInfo from "./ValueUnitInfo.vue";
 import { computed, defineProps } from "vue";
 
@@ -22,10 +22,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   }
-})
+});
 
 const isValueNumber = computed(() => {
-  return typeof props.value === 'number'
-})
+  return typeof props.value === "number";
+});
 
 </script>

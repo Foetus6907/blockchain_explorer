@@ -8,23 +8,30 @@ export default class Block {
   get fee(): number {
     return this._fee;
   }
+
   get blockReward(): number {
     return this._blockReward;
   }
+
   set nonce(value: number) {
     this._nonce = value;
   }
+
   private _nonce: number;
+
   set size(value: number) {
     this._size = value;
   }
+
   private _size: number;
 
 
   set weight(value: number) {
     this._weight = value;
   }
+
   private _weight: number;
+
   get merkelRoot(): string {
     return this._merkelRoot;
   }
@@ -32,7 +39,9 @@ export default class Block {
   set merkelRoot(value: string) {
     this._merkelRoot = value;
   }
+
   private _merkelRoot: string;
+
   get bits(): number {
     return this._bits;
   }
@@ -40,20 +49,24 @@ export default class Block {
   set bits(value: number) {
     this._bits = value;
   }
+
   private _bits: number;
+
   get height(): number {
     return this._height;
   }
+
   set height(value: number) {
     this._height = value;
   }
+
   private _height: number;
 
   set time(value: number) {
     this._time = value;
   }
 
- private readonly _blockReward = 625000000;
+  private readonly _blockReward = 625000000;
   private _transactionVolume: number;
   private _time: number;
 
@@ -64,7 +77,7 @@ export default class Block {
 
   set tx(value: Transaction[]) {
     this._tx = value;
-    this.setTransactionVolume()
+    this.setTransactionVolume();
   }
 
   private _numberOfTransactions: number;
@@ -91,7 +104,7 @@ export default class Block {
   getVersion(): string {
 
     let version = decimalToHexa(this._version);
-    version = `0x${version}`
+    version = `0x${version}`;
     return version;
   }
 
@@ -110,7 +123,7 @@ export default class Block {
     return Block.satoshiToBtc(this._fee).toFixed(8) + " BTC";
   }
 
-  getTransactionLength():number {
+  getTransactionLength(): number {
     return this._tx.length;
   }
 
@@ -127,7 +140,7 @@ export default class Block {
   }
 
   getBlockRewardInBTCString(): string {
-    return Block.satoshiToBtc(this._blockReward).toFixed(8) + " BTC"
+    return Block.satoshiToBtc(this._blockReward).toFixed(8) + " BTC";
   }
 
   getTransactionVolumeInBTCString(): string {
@@ -135,12 +148,12 @@ export default class Block {
   }
 
   getTransactionVolume(): number {
-    return Block.satoshiToBtc(this._transactionVolume)
+    return Block.satoshiToBtc(this._transactionVolume);
   }
 
 
-  getDate():number {
-    return this._time*1000;
+  getDate(): number {
+    return this._time * 1000;
   }
 
   getDifficulty(): number {
@@ -162,7 +175,6 @@ export default class Block {
     // console.log(parseInt(`0x${h}`, 16))
     return 0x00000000FFFF0000000000000000000000000000000000000000000000000000 / parseInt(`0x000000000${h}000000000000000000000000000000000000000000000000`, 16);
   }
-
 
 
   getWeightWU(): string {

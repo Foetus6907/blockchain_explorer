@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { computed, defineProps } from "vue";
 import Block from "../../core/domaine/model/Block";
+
 const props = defineProps({
   unit: String,
   value: Number,
@@ -11,15 +12,15 @@ const props = defineProps({
 const val = computed(() => {
   let val = String(props.value);
   if (props.formatNumberUs) {
-   val = Block.convertNumberUs(props.value)
+    val = Block.convertNumberUs(props.value);
   }
   if (props.withUnit) {
-    val = `${val} ${props.unit}`
+    val = `${val} ${props.unit}`;
   }
-  return val
-})
+  return val;
+});
 
 </script>
 <template>
-  <span>{{val}}</span>
+  <span>{{ val }}</span>
 </template>
